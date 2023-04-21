@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { Game, } from './main';
+import { Game } from './Game';
 
 describe('Game', () => {
   describe('token can move across the board', () => {
@@ -25,7 +25,7 @@ describe('Game', () => {
       expect(game.token.square).toBe(4);
     })
   
-    test('1 moved 4 and then 4 should end on 8', () => {
+    test('should end on 8 when token starts on 1, is moved 3 and then 4', () => {
       // Given the token is on square 1
       const game = new Game();
       game.placeTokenOnTheFirstSquare();
