@@ -1,8 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { Game, } from './main';
 
-const token = [];
-
 describe('Game', () => {
   describe('token can move across the board', () => {
     test('should place token on square 1 when the game is started', () => {
@@ -10,7 +8,7 @@ describe('Game', () => {
       const game = new Game();
   
       // When the token is placed on the board
-      game.placeSquareOnTheBoard();
+      game.placeTokenOnTheFirstSquare();
   
       // Then the token is on square 1
       expect(game.token.square).toBe(1);
@@ -19,7 +17,7 @@ describe('Game', () => {
     test('should return 4 when moving token 3 spaces from square 1', () => {
       // Given the token is on square 1
       const game = new Game();
-      game.placeSquareOnTheBoard();
+      game.placeTokenOnTheFirstSquare();
   
       // When the token is moved 3 spaces
       game.moveToken(3);
@@ -30,7 +28,7 @@ describe('Game', () => {
     test('1 moved 4 and then 4 should end on 8', () => {
       // Given the token is on square 1
       const game = new Game();
-      game.placeSquareOnTheBoard();
+      game.placeTokenOnTheFirstSquare();
 
       // When the token is moved 3 spaces
       game.moveToken(3);
@@ -44,6 +42,40 @@ describe('Game', () => {
     })
   })
 
-  describe('token can move across the board', () => {
+  describe('moves are determined by dice rolls', () => {
+    test('dice should be between 1 and 6 inclusive', () => {
+      // Given
+      const game = new Game();
+
+      const min = 1;
+      const max = 6;
+  
+      // When
+      const results: number[] = []
+
+      for (let i = 0; i < 100; i ++) {
+        const result = game.rollDice();
+        results.push(result)
+      }
+  
+      // Then
+      results.forEach(result => {
+        expect(result).toBeGreaterThanOrEqual(min)
+        expect(result).toBeLessThanOrEqual(max)
+      })
+    })
+
+    test('should move the token as many spaces as the dice roll', () => {
+      // Given the player rolls a 4
+      const game = new Game();
+      const initialSquare = game.token.square
+      const diceRoll = 4;
+
+      // When they move their token
+      game.moveToken(diceRoll);
+
+      // Then the token should move 4 spaces
+      expect(game.token.square).toBe(initialSquare + diceRoll)
+    })
   })
 });
