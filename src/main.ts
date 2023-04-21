@@ -10,10 +10,16 @@ const MAX_DICE_ROLL = 6;
 export class Game {
   token: Token;
   diceRoll: number;
+  player: {
+    hasWon: boolean
+  }
 
   constructor(){
     this.token = {
       square:0
+    }
+    this.player = {
+      hasWon: false
     }
     
   }
@@ -23,7 +29,18 @@ export class Game {
   }
 
   moveToken(numberOfSpaces: number) {
-    this.token.square = this.token.square + numberOfSpaces
+    const newSquare = this.token.square + numberOfSpaces;
+    if (newSquare <= 100) {
+      this.token.square = newSquare
+    }
+    
+    if (this.token.square === 100) {
+      this.setPlayerHasWonToTrue();
+    }
+  }
+
+  setPlayerHasWonToTrue() {
+    this.player.hasWon = true;
   }
 
   rollDice() {

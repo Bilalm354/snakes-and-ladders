@@ -78,4 +78,34 @@ describe('Game', () => {
       expect(game.token.square).toBe(initialSquare + diceRoll)
     })
   })
+
+  describe('player should win if they land on square 100', () => {
+    test('player should win if they land on square 100', () => {
+      // Given the token is on square 97
+      const game = new Game();
+      game.token.square = 97
+
+      // When the token is moved 3 spaces
+      game.moveToken(3)
+
+      // Then the token is on square 100
+      expect(game.token.square).toBe(100);
+      // And the player has won the game
+      expect(game.player.hasWon).toBe(true);
+    })
+
+    test('player should not win the game if they are on square 97 and move 4 places', () => {
+        // Given the token is on square 97
+        const game = new Game();
+        game.token.square = 97
+  
+        // When the token is moved 4 spaces
+        game.moveToken(4)
+  
+        // Then the token is on square 97
+        expect(game.token.square).toBe(97);
+        // And the player has not won the game
+        expect(game.player.hasWon).toBe(false);
+    })
+  })
 });
